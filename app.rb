@@ -48,3 +48,9 @@ post '/new' do
 	redirect to '/'
 	erb "you typed #{content}"
 end
+
+# выводим каждый пост на экран для коммента:
+get '/details/:post_id' do
+	post_id = params[:post_id]
+	erb "Displaying information for post with id #{post_id}"
+end	
