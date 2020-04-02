@@ -22,7 +22,8 @@ configure do
 	)'
 end
 get '/' do
-	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
+	#erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
+erb :index
 end
 # обработка get-запрса /new => браузер получает страницу с сервера
 get '/new' do
@@ -39,6 +40,7 @@ post '/new' do
 		@error = 'Type text'
 		return erb :new
 	end	
+	# Сохраняем данные в БД
 	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
 	erb "you typed #{content}"
 end
