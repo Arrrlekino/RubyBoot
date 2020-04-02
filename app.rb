@@ -35,5 +35,9 @@ end
 post '/new' do
 	# получаем переменную из post-запрса
 	content = params[:content]
+	if content.length <= 0
+		@error = 'Type text'
+		return erb :new
+	end	
 	erb "you typed #{content}"
 end
