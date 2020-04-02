@@ -20,6 +20,9 @@ configure do
 	@db.execute 'CREATE TABLE IF NOT EXISTS Posts
 	(id INTEGER PRIMARY KEY AUTOINCREMENT, created_date DATE, content TEXT
 	)'
+	# создаем таблицу для комментов
+	@db.execute 'create table if not EXISTS Comments (id INTEGER PRIMARY KEY AUTOINCREMENT,
+	created_date DATE, content TEXT, post_id INTEGER)'
 end
 get '/' do
 	#erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
@@ -44,9 +47,7 @@ post '/new' do
 	end	
 	# Сохраняем данные в БД
 	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
-	# создаем таблицу для комментов
-	@db.execute 'create table if not exist Comments (id INTEGER PRIMARY KEY AUTOINCREMENT,
-	created_date DATE, content TEXT, post_id INTEGER)'
+
 	# переход на главную страницу
 	redirect to '/'
 	erb "you typed #{content}"
@@ -68,5 +69,9 @@ post '/details/:post_id' do
 	# пишем обработку для post-коммента /details/=> браузер отправляет коммент на сервер
 		post_id = params[:post_id]
 		content = params[:content]
-		erb "You typed comment #{content} for post #{post_id}" 
+#
+@db.execute 'insert into Comments
+(content, created_date, post_id) values (?, datetime(), ?)', [content, post_id]
+redirect to('/details/' + post_id)
+		#erb "You typed comment #{content} for post #{post_id}" 
 end	
