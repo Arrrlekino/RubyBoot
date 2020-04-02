@@ -51,9 +51,19 @@ end
 
 # выводим каждый пост на экран для коммента:
 get '/details/:post_id' do
+	# получаем переменную из url'a
 	post_id = params[:post_id]
+	# получаем список постов, выбираем один
 	results = @db.execute 'select * from Posts where id = ?', [post_id]
+	# добавляем этот поств в переменную @row
 	@row = results[0]
 	#erb "Displaying information for post with id #{post_id}"
+	# передаем это на страницу details.erb
 	erb :details
+end	
+post '/details/:post_id' do		
+	# пишем обработку для post-коммента /details/=> браузер отправляет коммент на сервер
+		post_id = params[:post_id]
+		content = params[:content]
+		erb "You typed comment #{content} for post #{post_id}" 
 end	
