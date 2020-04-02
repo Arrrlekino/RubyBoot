@@ -44,6 +44,9 @@ post '/new' do
 	end	
 	# Сохраняем данные в БД
 	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
+	# создаем таблицу для комментов
+	@db.execute 'create table if not exist Comments (id INTEGER PRIMARY KEY AUTOINCREMENT,
+	created_date DATE, content TEXT, post_id INTEGER)'
 	# переход на главную страницу
 	redirect to '/'
 	erb "you typed #{content}"
