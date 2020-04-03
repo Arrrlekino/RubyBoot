@@ -15,6 +15,8 @@
 <hr />
 <% end %>
 <p>
+	<!-- здесь добавлено row... id чтобы каждый коммент был привязан к соотв посту
+	-->
 	<form action="/details/<%= @row['id'] %>" method="POST" role="form">
 	<textarea name="content" class="form-control" rows="6" placeholder="Type content!"></textarea>
 	<br />
